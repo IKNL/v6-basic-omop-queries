@@ -16,9 +16,7 @@ setup(
     description='This vantage6 algorithm sends a basic SQL query to an OMOP database at the node(s). This algorithm can be used to test the infrastructure of your v6 network after setting up an OMOP database.',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    # TODO add a url to your github repository here (or remove this line if
-    # you do not want to make your source code public)
-    # url='https://github.com/....',
+    url='https://github.com/IKNL/v6-basic-omop-queries',
     packages=find_packages(),
     python_requires='>=3.10',
     install_requires=[
