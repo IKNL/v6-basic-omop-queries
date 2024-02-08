@@ -1,0 +1,29 @@
+# DO NOT MODIFY THIS FILE MANUALLY.
+# This file contains the answers to the questions asked by the
+# v6-algorithm-template-creator (using the Copier package). The answers will
+# be updated if you re-run the template creator. Also, the answers in this file
+# may be used to submit your algorithm to a vantage6 algorithm store.
+_commit: 4.2.0
+_src_path: gh:vantage6/v6-algorithm-template.git
+advanced: false
+algorithm_description: This vantage6 algorithm sends a basic SQL query to an OMOP
+    database at the node(s). This algorithm can be used to test the infrastructure
+    of your v6 network after setting up an OMOP database.
+algorithm_name: v6-basic-omop-queries
+
+central_args:
+- arg1
+central_function_client: true
+central_function_data: true
+central_function_name: central
+central_function_number_databases: 1
+has_central_function: true
+has_partial_function: true
+open_source_license: mit
+partial_args:
+- arg1
+partial_function_client: true
+partial_function_data: true
+partial_function_name: partial
+partial_function_number_databases: 1
+use_vpn: false
