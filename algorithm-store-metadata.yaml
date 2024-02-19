@@ -57,6 +57,16 @@
           "name": "Main OMOP CDM database"
         }
       ]
+    },
+    {
+      "name": "send_http_person_count",
+      "description": "Count the number of records in the PERSON table using the OHDI-API",
+      "type": "federated",
+      "databases": [
+        {
+          "name": "OHDSI API"
+        }
+      ]
     }
   ]
 }
