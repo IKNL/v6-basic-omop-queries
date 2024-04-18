@@ -10,14 +10,6 @@ from vantage6.algorithm.tools.decorators import _get_user_database_labels
 
 def send_http_person_count() -> Any:
 
-    # decode environment variables
-    os.environ["HTTP_PROXY"] = get_env_var("HTTP_PROXY")
-    os.environ["HTTPS_PROXY"] = get_env_var("HTTPS_PROXY")
-    os.environ["NO_PROXY"] = get_env_var("NO_PROXY")
-    os.environ["http_proxy"] = os.environ["HTTP_PROXY"]
-    os.environ["https_proxy"] = os.environ["HTTPS_PROXY"]
-    os.environ["no_proxy"] = os.environ["NO_PROXY"]
-
     labels = _get_user_database_labels()
     if len(labels) > 1:
         error("Multiple databases found, but only one expected")
@@ -44,11 +36,13 @@ def send_http_person_count() -> Any:
         sleep(1)
         retries += 1
 
-    return {'count': _get_result(uri, task_id)}
+    return {"count": _get_result(uri, task_id)}
+
 
 def _get_result(uri: str, task_id: str) -> Any:
     body_ = requests.get(f"{uri}/result/{task_id}").json()
     return body_.get("value")
+
 
 def _get_state(uri: str, task_id: str) -> Any:
     body_ = requests.get(f"{uri}/result/{task_id}").json()

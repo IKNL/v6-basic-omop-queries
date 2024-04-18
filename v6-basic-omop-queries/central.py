@@ -6,10 +6,11 @@ The results in a return statement are sent to the vantage6 server (after
 encryption if that is enabled).
 """
 
+import os
 import pandas as pd
 from typing import Any
 
-from vantage6.algorithm.tools.util import info, warn, error
+from vantage6.algorithm.tools.util import info
 from vantage6.algorithm.tools.decorators import algorithm_client
 from vantage6.algorithm.client import AlgorithmClient
 
@@ -40,7 +41,6 @@ def get_person_table_count_http(
     list[pd.DataFrame]
         A list of pandas DataFrames containing the results.
     """
-
     # obtain organizations for which to run the algorithm
     info("Collecting participating organizations")
     organizations = client.organization.list()
@@ -68,7 +68,7 @@ def get_person_table_count_http(
     # wait for node to return results of the subtask.
     info("Waiting for results")
     results = client.wait_for_results(task_id=task.get("id"))
-    global_count = sum([result["count"] for result in results])
+    global_count = sum([int(float(result["count"])) for result in results])
     info("Results obtained!")
 
     # return the final results of the algorithm

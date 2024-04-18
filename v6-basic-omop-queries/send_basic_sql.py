@@ -6,6 +6,7 @@ The results in a return statement are sent to the vantage6 server (after
 encryption if that is enabled). From there, they are sent to the partial task
 or directly to the user (if they requested partial results).
 """
+
 from typing import Any
 
 from vantage6.algorithm.tools.util import info
@@ -17,6 +18,7 @@ from ohdsi import common as ohdsi_common
 
 from rpy2.robjects import RS4
 
+
 @database_connection(types=["OMOP"], include_metadata=True)
 def send_sql_person_count(
     connection: RS4,
@@ -26,13 +28,16 @@ def send_sql_person_count(
     info("Sending SQL query to get PERSON table count")
     sql_string = "SELECT COUNT(*) FROM @cdm_schema.person"
     sql = sqlrender.render(sql_string, cdm_schema=metadata.cdm_schema)
-    sql = sqlrender.translate(sql, target_dialect="postgresql") ##@TODO: How to get this from the node config? Not in OHDSIMetaData
+    sql = sqlrender.translate(
+        sql, target_dialect="postgresql"
+    )  ##@TODO: How to get this from the node config? Not in OHDSIMetaData
 
     result = database_connector.query_sql(connection, sql)
     result = ohdsi_common.convert_from_r(result)
 
     # Return results to the vantage6 server.
     return result.to_json()
+
 
 @database_connection(types=["OMOP"], include_metadata=True)
 def send_sql_table_names(
@@ -43,7 +48,9 @@ def send_sql_table_names(
     info("Sending SQL query to get table names")
     sql_string = "SELECT table_catalog, table_schema, table_name FROM information_schema.tables WHERE table_schema = '@cdm_schema'"
     sql = sqlrender.render(sql_string, cdm_schema=metadata.cdm_schema)
-    sql = sqlrender.translate(sql, target_dialect="postgresql") ##@TODO: How to get this from the node config? Not in OHDSIMetaData
+    sql = sqlrender.translate(
+        sql, target_dialect="postgresql"
+    )  ##@TODO: How to get this from the node config? Not in OHDSIMetaData
 
     result = database_connector.query_sql(connection, sql)
     result = ohdsi_common.convert_from_r(result)
