@@ -18,7 +18,7 @@ from vantage6.algorithm.client import AlgorithmClient
 
 
 @algorithm_client
-def get_person_count(
+def get_person_table_count_http(
     client: AlgorithmClient,
     organizations_to_include="ALL",
 ) -> list[pd.DataFrame]:
