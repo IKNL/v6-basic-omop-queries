@@ -1,0 +1,69 @@
+{
+  "name": "Basic OMOP Queries",
+  "image": "harbor2.vantage6.ai/blueberry/v6-basic-omop-queries",
+  "vantage6_version": "4.2",
+  "partitioning": "horizontal",
+  "functions":
+    [
+      {
+        "name": "get_person_table_count_http",
+        "description": "Retrieves PERSON table count from the OMOP database using the OHDSI API",
+        "type": "central",
+        "databases": [{ "name": "Main OMOP CDM database" }],
+        "arguments":
+          [
+            {
+              "name": "organizations_to_include",
+              "type": "organization_list",
+              "description": "Organizations to include in the analysis",
+            },
+          ],
+      },
+      {
+        "name": "get_person_table_count",
+        "description": "Retrieves PERSON table count from the OMOP database",
+        "type": "central",
+        "databases": [{ "name": "Main OMOP CDM database" }],
+        "arguments":
+          [
+            {
+              "name": "organizations_to_include",
+              "type": "organization_list",
+              "description": "Organizations to include in the analysis",
+            },
+          ],
+      },
+      {
+        "name": "get_table_names",
+        "description": "Retrieves table names from the OMOP database",
+        "type": "central",
+        "databases": [{ "name": "Main OMOP CDM database" }],
+        "arguments":
+          [
+            {
+              "name": "organizations_to_include",
+              "type": "organization_list",
+              "description": "Organizations to include in the analysis",
+            },
+          ],
+      },
+      {
+        "name": "send_sql_person_count",
+        "description": "Count the number of records in the PERSON table",
+        "type": "federated",
+        "databases": [{ "name": "Main OMOP CDM database" }],
+      },
+      {
+        "name": "send_sql_table_names",
+        "description": "Return the OMOP CDM table names",
+        "type": "federated",
+        "databases": [{ "name": "Main OMOP CDM database" }],
+      },
+      {
+        "name": "send_http_person_count",
+        "description": "Count the number of records in the PERSON table using the OHDI-API",
+        "type": "federated",
+        "databases": [{ "name": "OHDSI API" }],
+      },
+    ],
+}

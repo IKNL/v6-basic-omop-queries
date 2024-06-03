@@ -23,9 +23,9 @@ from .globals import DEFAULT_BOQ_MIN_RECORDS, DEFAULT_ALLOW_ZERO
 
 @database_connection(types=["OMOP"], include_metadata=True)
 def send_sql_person_count(
-    connection: RS4, 
+    connection: RS4,
     metadata: OHDSIMetaData,
-) -> pd.DataFrame:
+) -> Any:
 
     info("Sending SQL query to get PERSON table count")
     sql_string = "SELECT COUNT(*) FROM @cdm_schema.person"
@@ -70,17 +70,20 @@ def send_sql_person_count(
     return df.astype(str).to_json(orient="records")
 
 
+
 @database_connection(types=["OMOP"], include_metadata=True)
 def send_sql_table_names(
-    connection: RS4, 
+    connection: RS4,
     metadata: OHDSIMetaData,
-) -> pd.DataFrame:
+) -> Any:
 
     info("Sending SQL query to get table names")
     sql_string = "SELECT table_catalog, table_schema, table_name FROM information_schema.tables WHERE table_schema = '@cdm_schema'"
     sql = sqlrender.render(sql_string, cdm_schema=metadata.cdm_schema)
-    sql = sqlrender.translate(sql, target_dialect="postgresql") ##@TODO: How to get this from the node config? Not in OHDSIMetaData
-    
+    sql = sqlrender.translate(
+        sql, target_dialect="postgresql"
+    )  ##@TODO: How to get this from the node config? Not in OHDSIMetaData
+
     result = database_connector.query_sql(connection, sql)
     result = ohdsi_common.convert_from_r(result)
 
