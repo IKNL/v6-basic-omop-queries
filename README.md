@@ -20,7 +20,7 @@ The queries are:
 
 I can run these queries using the OMOP SQL connection or using the [OHDSI API](https://ohdsi-api.readthedocs.org).
 
-This package has been developed in contect of the [BlueBerry](https://euracan.eu/registries/blueberry/) and [IDEA4RC](https://www.idea4rc.eu/) projects.
+This package has been developed in context of the [BlueBerry](https://euracan.eu/registries/blueberry/) and [IDEA4RC](https://www.idea4rc.eu/) projects.
 
 This algorithm is designed to be run with the [vantage6](https://vantage6.ai)
 infrastructure for distributed analysis and learning.
