@@ -5,20 +5,6 @@
   "partitioning": "horizontal",
   "functions": [
     {
-      "name": "get_person_table_count_http",
-      "description": "Retrieves PERSON table count from the OMOP database using the OHDSI API",
-      "type": "central",
-      "databases": [{ "name": "OHDSI API reference" }],
-      "ui_visualizations": [],
-      "arguments": [
-        {
-          "name": "organizations_to_include",
-          "type": "organization_list",
-          "description": "Organizations to include in the analysis"
-        }
-      ]
-    },
-    {
       "name": "get_person_table_count",
       "description": "Retrieves PERSON table count from the OMOP database",
       "type": "central",

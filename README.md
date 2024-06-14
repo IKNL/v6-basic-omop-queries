@@ -29,6 +29,22 @@ The base code for this algorithm has been created via the
 [v6-algorithm-template](https://github.com/vantage6/v6-algorithm-template)
 template generator.
 
+## Privacy Gaurds
+
+### Minimum number of records
+For the count query, the algorithm can be configured to only return the result if the number of records is above a certain threshold. This is done by setting the `BOQ_MIN_RECORDS` environment variable.
+
+In case the number of records is below the threshold, the algorithm will return a range between 1 and the threshold. Or the range will be 0 to the threshold if the `BOQ_ALLOW_ZERO` environment variable is set.
+
+Default value: 5
+
+### Allow zero to be returned
+By default if the number of records is zero, the value zero is returned. This can be changed by setting the `BOQ_ALLOW_ZERO` environment variable.
+
+In case there are zero records in the PERSON table, the algorithm will return a range between 1 and the threshold when `BOQ_ALLOW_ZERO` is set to `false`.
+
+Default value: true
+
 ## Build
 In order to build its best to use the makefile.
 
