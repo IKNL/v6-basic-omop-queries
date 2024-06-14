@@ -34,7 +34,7 @@ image:
 	@echo "Building ${REGISTRY}/${REGISTRY_PROJECT}/${IMAGE}:${TAG}-v6-${VANTAGE6_VERSION}"
 	@echo "Building ${REGISTRY}/${REGISTRY_PROJECT}/${IMAGE}:latest"
 	docker buildx build \
-		--tag ${REGISTRY}/${REGISTRY_PROJECT}/${IMAGE}:${TAG} \
+		--tag ${REGISTRY}/${REGISTRY_PROJECT}/${IMAGE}:${TAG}-v6-${VANTAGE6_VERSION} \
 		--tag ${REGISTRY}/${REGISTRY_PROJECT}/${IMAGE}:latest \
 		--platform ${PLATFORMS} \
 		--build-arg TAG=${TAG} \
