@@ -6,6 +6,7 @@ The results in a return statement are sent to the vantage6 server (after
 encryption if that is enabled). From there, they are sent to the partial task
 or directly to the user (if they requested partial results).
 """
+
 import pandas as pd
 import numpy as np
 from typing import Any
@@ -21,6 +22,7 @@ from rpy2.robjects import RS4
 
 from .globals import DEFAULT_BOQ_MIN_RECORDS, DEFAULT_ALLOW_ZERO
 
+
 @database_connection(types=["OMOP"], include_metadata=True)
 def send_sql_person_count(
     connection: RS4,
@@ -30,8 +32,10 @@ def send_sql_person_count(
     info("Sending SQL query to get PERSON table count")
     sql_string = "SELECT COUNT(*) FROM @cdm_schema.person"
     sql = sqlrender.render(sql_string, cdm_schema=metadata.cdm_schema)
-    sql = sqlrender.translate(sql, target_dialect="postgresql") ##@TODO: How to get this from the node config? Not in OHDSIMetaData
-    
+    sql = sqlrender.translate(
+        sql, target_dialect="postgresql"
+    )  ##@TODO: How to get this from the node config? Not in OHDSIMetaData
+
     df = database_connector.query_sql(connection, sql)
     df = ohdsi_common.convert_from_r(df)
 
@@ -44,15 +48,9 @@ def send_sql_person_count(
 
     replace_value = 1 if ALLOW_ZERO else 0
     replace_condition = (
-        np.invert(
-            (df < PRIVACY_THRESHOLD) & 
-            (~df.isnull()) &
-            (df != 0))
+        np.invert((df < PRIVACY_THRESHOLD) & (~df.isnull()) & (df != 0))
         if ALLOW_ZERO
-        else np.invert(
-            (df < PRIVACY_THRESHOLD)) &
-            (~df.isnull())
-            
+        else np.invert((df < PRIVACY_THRESHOLD)) & (~df.isnull())
     )
 
     df.where(replace_condition, replace_value, inplace=True)
@@ -61,14 +59,11 @@ def send_sql_person_count(
         PRIVACY_THRESHOLD, ALLOW_ZERO
     )
 
-    df = df.astype(str).where(
-        replace_condition, BELOW_THRESHOLD_PLACEHOLDER
-    )
-    
+    df = df.astype(str).where(replace_condition, BELOW_THRESHOLD_PLACEHOLDER)
+
     # Cast results to string to ensure they can be read again
     info("Returning results!")
     return df.astype(str).to_json(orient="records")
-
 
 
 @database_connection(types=["OMOP"], include_metadata=True)
@@ -89,25 +84,6 @@ def send_sql_table_names(
 
     # Return results to the vantage6 server.
     return result.to_json()
-
-
-def _create_cohort_query(cohort_definition: dict) -> str:
-    """
-    Creates a cohort query from a cohort definition in JSON format.
-
-    Parameters
-    ----------
-    cohort_definition: dict
-        The cohort definition in JSON format, for example created from ATLAS.
-
-    Returns
-    -------
-    str
-        The cohort query.
-    """
-    cohort_expression = circe.cohort_expression_from_json(cohort_definition)
-    options = circe.create_generate_options(generate_stats=True)
-    return circe.build_cohort_query(cohort_expression, options)[0]
 
 
 def _convert_envvar_to_int(envvar_name: str, default: str) -> int:
@@ -166,7 +142,7 @@ def _get_threshold_placeholder(privacy_threshold: int, allow_zero: bool) -> str:
             return f"0-{privacy_threshold-1}"
         else:
             return "0"
-        
+
 
 def _convert_envvar_to_bool(envvar_name: str, default: str) -> bool:
     """
