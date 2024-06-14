@@ -72,7 +72,7 @@ def get_person_table_count_http(
     info("Results obtained!")
 
     # return the final results of the algorithm
-    return {"global_count": global_count}
+    return pd.DataFrame([{"global_count": global_count}], index=["value"]).to_json()
 
 
 @algorithm_client
