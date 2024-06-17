@@ -18,7 +18,7 @@ The queries are:
 - Count the number of persons in the database
 - Return the table names in the database
 
-I can run these queries using the OMOP SQL connection or using the [OHDSI API](https://ohdsi-api.readthedocs.org).
+You can run these queries using the OMOP SQL connection or using the [OHDSI API](https://ohdsi-api.readthedocs.org).
 
 This package has been developed in context of the [BlueBerry](https://euracan.eu/registries/blueberry/) and [IDEA4RC](https://www.idea4rc.eu/) projects.
 
