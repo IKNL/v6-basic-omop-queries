@@ -1,9 +1,9 @@
+ARG BASE=4.5
 FROM harbor2.vantage6.ai/infrastructure/algorithm-ohdsi-base:${BASE}
 
-ARG BASE=4.5
-ARG TAG=latest
 ARG PKG_NAME="v6-basic-omop-queries"
 
+ARG TAG=latest
 LABEL version=${TAG}
 LABEL maintainer="F.C. Martin <f.martin@iknl.nl>"
 LABEL maintainer="A.J. van Gestel <a.vangestel@iknl.nl>"

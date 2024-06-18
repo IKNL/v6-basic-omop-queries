@@ -12,7 +12,12 @@ import numpy as np
 from typing import Any
 
 from vantage6.algorithm.tools.util import info, warn, error, get_env_var
-from vantage6.algorithm.tools.decorators import database_connection, OHDSIMetaData
+from vantage6.algorithm.tools.decorators import (
+    database_connection,
+    OHDSIMetaData,
+    metadata,
+    RunMetaData,
+)
 
 from ohdsi import database_connector
 from ohdsi import sqlrender
@@ -23,10 +28,10 @@ from rpy2.robjects import RS4
 from .globals import DEFAULT_BOQ_MIN_RECORDS, DEFAULT_ALLOW_ZERO
 
 
+@metadata
 @database_connection(types=["OMOP"], include_metadata=True)
 def send_sql_person_count(
-    connection: RS4,
-    metadata: OHDSIMetaData,
+    connection: RS4, metadata: OHDSIMetaData, run_metadata: RunMetaData
 ) -> Any:
 
     info("Sending SQL query to get PERSON table count")
@@ -63,13 +68,23 @@ def send_sql_person_count(
 
     # Cast results to string to ensure they can be read again
     info("Returning results!")
-    return df.astype(str).to_json(orient="records")
+    count = df["COUNT"]["1"]
+
+    return (
+        pd.DataFrame(
+            [{"organization_id": run_metadata.organization_id, "person_count": count}]
+        )
+        .astype(str)
+        .to_json()
+    )
 
 
+@metadata
 @database_connection(types=["OMOP"], include_metadata=True)
 def send_sql_table_names(
     connection: RS4,
     metadata: OHDSIMetaData,
+    run_metadata: RunMetaData,
 ) -> Any:
 
     info("Sending SQL query to get table names")
@@ -80,10 +95,12 @@ def send_sql_table_names(
     )  ##@TODO: How to get this from the node config? Not in OHDSIMetaData
 
     result = database_connector.query_sql(connection, sql)
-    result = ohdsi_common.convert_from_r(result)
+    df = ohdsi_common.convert_from_r(result)
+
+    df["organization_id"] = run_metadata.organization_id
 
     # Return results to the vantage6 server.
-    return result.to_json()
+    return df.to_json()
 
 
 def _convert_envvar_to_int(envvar_name: str, default: str) -> int:

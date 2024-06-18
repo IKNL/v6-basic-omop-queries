@@ -128,8 +128,13 @@ def get_person_table_count(
     results = client.wait_for_results(task_id=task.get("id"))
     info("Results obtained!")
 
+    info("Combining results")
+    combined_result = pd.concat(
+        [pd.read_json(result) for result in results], ignore_index=True
+    ).to_json()
+
     # return the final results of the algorithm
-    return results
+    return combined_result
 
 
 @algorithm_client
@@ -185,5 +190,9 @@ def get_table_names(
     results = client.wait_for_results(task_id=task.get("id"))
     info("Results obtained!")
 
+    combined_result = pd.concat(
+        [pd.read_json(result) for result in results], ignore_index=True
+    ).to_json()
+
     # return the final results of the algorithm
-    return results
+    return combined_result
