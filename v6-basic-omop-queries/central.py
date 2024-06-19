@@ -129,12 +129,17 @@ def get_person_table_count(
     info("Results obtained!")
 
     info("Combining results")
-    combined_result = pd.concat(
-        [pd.read_json(result) for result in results], ignore_index=True
-    ).to_json()
+    df_per_node = [pd.read_json(result) for result in results]
+    count_per_organization = pd.concat(df_per_node, ignore_index=True)
+    global_count = count_per_organization["person_count"].sum()
 
     # return the final results of the algorithm
-    return combined_result
+    return {
+        "count_per_organization": count_per_organization.to_json(),
+        "global_count": pd.DataFrame(
+            [global_count], columns=["global_count"]
+        ).to_json(),
+    }
 
 
 @algorithm_client
