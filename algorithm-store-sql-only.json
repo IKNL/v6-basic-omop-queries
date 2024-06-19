@@ -58,11 +58,20 @@
       "ui_visualizations": [
         {
           "schema": {
-            "location": [],
+            "location": ["table_names"],
             "columns": []
           },
           "type": "table",
           "name": "Table names",
+          "description": ""
+        },
+        {
+          "schema": {
+            "location": ["table_names_match"],
+            "columns": []
+          },
+          "type": "table",
+          "name": "Table names match",
           "description": ""
         }
       ],

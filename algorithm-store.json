@@ -19,71 +19,80 @@
       ]
     },
     {
-      "arguments": [
-        {
-          "name": "organizations_to_include",
-          "description": "Organizations to include in the analysis",
-          "type": "organization_list"
-        }
-      ],
-      "type": "central",
-      "databases": [
-        {
-          "name": "OMOP CDM database",
-          "description": ""
-        }
-      ],
-      "ui_visualizations": [
-        {
-          "schema": {
-            "location": ["count_per_organization"],
-            "columns": []
+        "arguments": [
+          {
+            "name": "organizations_to_include",
+            "description": "Organizations to include in the analysis",
+            "type": "organization_list"
+          }
+        ],
+        "type": "central",
+        "databases": [
+          {
+            "name": "OMOP CDM database",
+            "description": ""
+          }
+        ],
+        "ui_visualizations": [
+          {
+            "schema": {
+              "location": ["count_per_organization"],
+              "columns": []
+            },
+            "type": "table",
+            "name": "Count per node",
+            "description": ""
           },
-          "type": "table",
-          "name": "Count per node",
-          "description": ""
-        },
-        {
-          "schema": {
-            "location": ["global_count"],
-            "columns": []
+          {
+            "schema": {
+              "location": ["global_count"],
+              "columns": []
+            },
+            "type": "table",
+            "name": "Total count",
+            "description": ""
+          }
+        ],
+        "name": "get_person_table_count",
+        "description": "Retrieves PERSON table count from the OMOP database"
+      },
+      {
+        "arguments": [
+          {
+            "name": "organizations_to_include",
+            "description": "Organizations to include in the analysis",
+            "type": "organization_list"
+          }
+        ],
+        "type": "central",
+        "databases": [
+          {
+            "name": "OMOP CDM database",
+            "description": ""
+          }
+        ],
+        "ui_visualizations": [
+          {
+            "schema": {
+              "location": ["table_names"],
+              "columns": []
+            },
+            "type": "table",
+            "name": "Table names",
+            "description": ""
           },
-          "type": "table",
-          "name": "Total count",
-          "description": ""
-        }
-      ],
-      "name": "get_person_table_count",
-      "description": "Retrieves PERSON table count from the OMOP database"
-    },
-    {
-      "arguments": [
-        {
-          "name": "organizations_to_include",
-          "description": "Organizations to include in the analysis",
-          "type": "organization_list"
-        }
-      ],
-      "type": "central",
-      "databases": [
-        {
-          "name": "OMOP CDM database",
-          "description": ""
-        }
-      ],
-      "ui_visualizations": [
-        {
-          "schema": {
-            "location": [],
-            "columns": []
-          },
-          "type": "table",
-          "name": "Table names",
-          "description": ""
-        }
-      ],
-      "name": "get_table_names",
-      "description": "Retrieves table names from the OMOP database"
-    }
+          {
+            "schema": {
+              "location": ["table_names_match"],
+              "columns": []
+            },
+            "type": "table",
+            "name": "Table names match",
+            "description": ""
+          }
+        ],
+        "name": "get_table_names",
+        "description": "Retrieves table names from the OMOP database"
+      }
   ]
 }

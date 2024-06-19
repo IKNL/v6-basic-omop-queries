@@ -10,7 +10,7 @@ import os
 import pandas as pd
 from typing import Any
 
-from vantage6.algorithm.tools.util import info
+from vantage6.algorithm.tools.util import info, warn
 from vantage6.algorithm.tools.decorators import algorithm_client
 from vantage6.algorithm.client import AlgorithmClient
 
@@ -195,9 +195,28 @@ def get_table_names(
     results = client.wait_for_results(task_id=task.get("id"))
     info("Results obtained!")
 
-    combined_result = pd.concat(
-        [pd.read_json(result) for result in results], ignore_index=True
-    ).to_json()
+    df_per_node = [pd.read_json(result) for result in results]
+    combined_result = pd.concat(df_per_node, ignore_index=True).to_json()
+
+    table_names_match = all(
+        x["TABLE_NAME"]
+        .sort_values(ignore_index=True)
+        .equals(df_per_node[0]["TABLE_NAME"].sort_values(ignore_index=True))
+        for x in df_per_node
+    )
+
+    if not table_names_match:
+        warn("Table names do not match across organizations")
+        for i, df_node in enumerate(df_per_node):
+            node_result_sorted = df_node["TABLE_NAME"].sort_values(ignore_index=True)
+            result0_sorted = df_per_node[0]["TABLE_NAME"].sort_values(ignore_index=True)
+            print(f"Result {i}:")
+            print((node_result_sorted == result0_sorted).all())
 
     # return the final results of the algorithm
-    return combined_result
+    return {
+        "table_names": combined_result,
+        "table_names_match": pd.DataFrame(
+            [table_names_match], columns=["table_names_match"]
+        ).to_json(),
+    }
